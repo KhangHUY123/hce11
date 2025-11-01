@@ -14,7 +14,7 @@ const Layout = () => {
                   <a href="/#">TRANG CHỦ</a>
                 </li>
                 <li>
-                  <a href="/trang1">EGOV</a>
+                  <a href="/trang1">Shop</a>
                 </li>
                 <li>
                   <a href="/trang2">SINH VIÊN</a>
