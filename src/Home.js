@@ -4,10 +4,10 @@ const Home = () => {
   const str = "THỨ BẢY NGÀY 11/10/2025";
 
   // Biến thường
-  var dssv = ["Nguyễn Văn An111", "Trần Văn Ba", "Nguyễn Văn Cường"];
+  const dssv = ["Nguyễn Văn An111", "Trần Văn Ba", "Nguyễn Văn Cường"];
 
   // Biến thường ds2
-  var ds2 = [
+  const ds2 = [
     { id: "001", hoten: "Nguyễn Thị An111", lop: "K18", gioitinh: false },
     { id: "002", hoten: "Trần Văn Ba", lop: "K18", gioitinh: true },
     { id: "003", hoten: "Nguyễn Văn Cường", lop: "K18", gioitinh: true },
@@ -20,21 +20,50 @@ const Home = () => {
     { id: "102", hoten: "Phạm Văn Nam", lop: "K19", gioitinh: true },
     { id: "103", hoten: "Nguyễn Văn Bình", lop: "K19", gioitinh: false },
   ]);
+  //ds3[2].hoten="jkldsjflk"
 
-  // Handler thay đổi ds3
+  // State cho ô nhập tên mới
+  const [tenMoi, setTenMoi] = useState("");
+
+  // Hàm cập nhật ds3 khi gõ trong ô input bảng ds3
   const handleChangeDs3 = (id, field, value) => {
-    const newDs3 = ds3.map((item) =>
-      item.id === id ? { ...item, [field]: value } : item
+    setDs3((prevDs3) =>
+      prevDs3.map((item) =>
+        item.id === id ? { ...item, [field]: value } : item
+      )
     );
-    setDs3(newDs3);
   };
 
-  // Nút sửa ds3: đổi họ tên thành "Ronaldo"
+  // Hàm sửa họ tên ds3 bằng giá trị từ ô nhập tênMoi
   const TestSuaDLds3 = (id) => {
-    const newDs3 = ds3.map((item) =>
-      item.id === id ? { ...item, hoten: "Ronaldo" } : item
+    if (!tenMoi.trim()) {
+      alert("Vui lòng nhập tên mới trước khi sửa!");
+      return;
+    }
+    setDs3((prevDs3) =>
+      prevDs3.map((item) =>
+        item.id === id ? { ...item, hoten: tenMoi } : item
+      )
     );
-    setDs3(newDs3);
+    setTenMoi(""); // reset ô nhập sau khi cập nhật
+  };
+
+  //Viết lại
+  const TestSuaDLds3_aaa = (id) => {
+    if (!tenMoi.trim()) {
+      alert("Vui lòng nhập tên mới trước khi sửa!");
+      return;
+    }
+    var newds3 = ds3.map((phantu) => {
+      if (phantu.id === id) {
+        phantu.hoten = tenMoi;
+      }
+
+      return phantu;
+    });
+
+    setTenMoi("");
+    setDs3(newds3);
   };
 
   // Nút sửa ds2 (biến thường)
@@ -46,15 +75,12 @@ const Home = () => {
       }
       return item;
     });
-    // Không rerender, vì ds2 là biến thường
     alert("ds2 đã thay đổi nhưng UI không cập nhật tự động!");
   };
 
   return (
-    <div>
-      <div>
-        <h3>{str}</h3>{" "}
-      </div>
+    <div style={{ padding: "20px" }}>
+      <h3>{str}</h3>
 
       {/* Hiển thị danh sách từ biến thường dssv */}
       <div>
@@ -65,9 +91,9 @@ const Home = () => {
       </div>
 
       {/* Hiển thị bảng ds2 (biến thường) */}
-      <div>
+      <div style={{ marginTop: "20px" }}>
         <p>DANH SÁCH SINH VIÊN ds2 (biến thường)</p>
-        <table className="my-table">
+        <table border="1" cellPadding="5">
           <thead>
             <tr>
               <td>ID</td>
@@ -106,9 +132,21 @@ const Home = () => {
       </div>
 
       {/* Hiển thị bảng ds3 (state) */}
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "30px" }}>
         <p>DANH SÁCH SINH VIÊN ds3 (state)</p>
-        <table className="my-table">
+
+        {/* Ô nhập tên mới */}
+        <div style={{ marginBottom: "10px" }}>
+          <label>Nhập tên mới: </label>
+          <input
+            type="text"
+            value={tenMoi}
+            onChange={(e) => setTenMoi(e.target.value)}
+            placeholder="Nhập tên muốn đổi..."
+          />
+        </div>
+
+        <table border="1" cellPadding="5">
           <thead>
             <tr>
               <td>ID</td>
@@ -145,7 +183,7 @@ const Home = () => {
                   <input
                     type="button"
                     value="Sửa"
-                    onClick={() => TestSuaDLds3(sv.id)}
+                    onClick={() => TestSuaDLds3_aaa(sv.id)}
                   />
                 </td>
               </tr>
