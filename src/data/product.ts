@@ -1,4 +1,5 @@
 // src/product.ts
+// Cập nhật Interface Product để bao gồm thuộc tính 'rating'
 export interface Product {
   id: number;
   title: string;
@@ -6,6 +7,11 @@ export interface Product {
   description: string;
   category: string;
   image: string;
+  // THUỘC TÍNH RATING ĐÃ ĐƯỢC THÊM VÀO ĐÂY:
+  rating: {
+    rate: number;
+    count: number;
+  };
 }
 
 export const products: Product[] = [
