@@ -5,6 +5,9 @@ import Home from "./Home";
 import Layout from "./Layout";
 // @ts-ignore
 import Trang1 from "./Trang1";
+// src/App.jsx
+import "./assets/css/header.css"; // Thêm dòng này để style header
+// ... các import khác
 // @ts-ignore
 import Chitietsanpham from "./Chitietsanpham";
 

@@ -1,0 +1,165 @@
+/* Import file này vào App.jsx hoặc Layout.jsx */
+
+/* Đảm bảo Link không bị gạch chân */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ---------------- HEADER MINIMAL ---------------- */
+.header-minimal {
+  position: absolute; /* Quan trọng để header nằm trên banner ảnh */
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 40px; /* Khoảng cách trên dưới, trái phải */
+
+  /* Sử dụng Flexbox để căn 3 phần: logo | menu | cart */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* Màu chữ trắng/sáng để nổi bật trên nền ảnh tối */
+  color: white;
+  z-index: 100; /* Đảm bảo nó luôn nằm trên các thành phần khác */
+}
+
+/* --- LOGO --- */
+.logo-text {
+  /* Đã được sửa để hỗ trợ cả ảnh và văn bản (nếu muốn) */
+  padding: 0;
+  line-height: 1;
+  display: block;
+}
+
+.logo-subtext {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  margin-top: -5px;
+  opacity: 0.8;
+}
+
+/* Điều chỉnh phần logo ảnh */
+.header-logo-image {
+  height: 35px; /* Chiều cao cố định */
+  width: auto; /* Chiều rộng tự động theo tỉ lệ */
+  display: block;
+}
+
+/* --- MENU --- */
+.nav-menu {
+  display: flex;
+  gap: 30px; /* Khoảng cách giữa các mục menu */
+}
+
+.nav-item {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
+}
+
+.nav-item:hover {
+  opacity: 0.7;
+}
+
+/* --- CART & ACTIONS (Cả login nếu có) --- */
+.cart-section {
+  display: flex; /* Đảm bảo các icon (cart, login) nằm cạnh nhau */
+  gap: 15px;
+  align-items: center;
+}
+
+.cart-icon-link {
+  position: relative;
+  font-size: 1.5rem; /* Tăng kích thước icon giỏ hàng */
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #f73030; /* Màu đỏ cho số lượng item */
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  line-height: 1;
+}
+
+/* ---------------- BACKGROUND BANNER ---------------- */
+.hero-banner {
+  /* Bổ sung các thuộc tính cơ bản để Hero Banner chiếm không gian */
+  position: relative;
+  width: 100%;
+  height: 90vh; /* Chiều cao banner */
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
+
+  /* Căn chỉnh nội dung (hero-content) xuống giữa phía dưới */
+  align-items: center; /* Căn giữa theo chiều ngang */
+  justify-content: flex-end; /* Đẩy nội dung xuống đáy */
+
+  /* Lớp phủ tối (optional, nếu bạn muốn chữ nổi bật hơn) */
+  background-color: rgba(0, 0, 0, 0.4);
+  background-blend-mode: multiply;
+}
+
+/* ---------------- HERO CONTENT ---------------- */
+.hero-content {
+  color: white;
+  max-width: 600px;
+
+  /* Căn giữa nội dung văn bản và nút */
+  text-align: center;
+  padding-bottom: 80px; /* Khoảng cách từ đáy banner */
+  padding-left: 0; /* Đảm bảo không còn padding-left cũ */
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin-bottom: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  max-width: 100%; /* Đã căn giữa nên có thể dùng 100% */
+}
+
+.shop-btn {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  text-transform: uppercase;
+  /* Margin-top để tạo khoảng cách với đoạn p (nếu cần) */
+  margin-top: 10px;
+}
+
+.shop-btn:hover {
+  background-color: white;
+  color: black;
+}
+
+.hero-footer-text {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}

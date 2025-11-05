@@ -1,45 +1,48 @@
-import "./assets/css/main.css";
-import anhlogo from "./assets/images//Ten-truong-do-1000x159.png";
+// src/Layout.jsx
+
+import React from "react";
+// Import component HeaderMinimal mới
+import HeaderMinimal from "./HeaderMinimal";
 import { Outlet } from "react-router-dom";
+// Nếu bạn muốn import ảnh nền hero, đây là nơi phù hợp:
+import heroImage from "./assets/images/banne.png";
+import Footer from "./Footer"; // <--- IMPORT COMPONENT FOOTER
 
 const Layout = () => {
+  // Giả định số lượng item trong giỏ hàng
+  const cartCount = 2;
+
   return (
-    <html>
-      <header>
-        <div id="divheader" class="header1">
-          <div id="banner" class="banner1">
-            <div id="topleft">
-              <ul class="ul1">
-                <li>
-                  <a href="/#">TRANG CHỦ</a>
-                </li>
-                <li>
-                  <a href="/trang1">Shop</a>
-                </li>
-                <li>
-                  <a href="/trang2">SINH VIÊN</a>
-                </li>
-              </ul>
-            </div>
-            <div id="logo" class="logo1">
-              <img src={anhlogo} width="548" />
-            </div>
-            <div id="divtimkiem" style={{ width: "300px" }}>
-              Phần tìm kiếm
-            </div>
-          </div>
-          <div id="divmenu" class="menu">
-            333
+    <div className="layout-container">
+      {/* Truyền props vào HeaderMinimal */}
+      <HeaderMinimal cartItemCount={cartCount} />
+
+      {/* Hero Banner (Giữ nguyên) */}
+      <div
+        className="hero-banner"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="hero-content">
+          <h1>FEEL YOUR STRENGTH</h1>
+          <p>
+            Join our strength community and unlock your training potentikal.
+          </p>
+          <button className="shop-btn">SHOP NOW</button>
+          {/* Phần "NHÀ BÁN LẺ QUẦN ÁO..." có thể đặt ở đây hoặc footer */}
+          <div className="hero-footer-text">
+            NHÀ BÁN LẺ QUẦN ÁO CỔ ĐIỂN - TỪ NĂM 1998
           </div>
         </div>
-      </header>
-      <body>
-        <div id="container" class="container">
-          <Outlet />
-        </div>
-      </body>
-      <footer></footer>
-    </html>
+      </div>
+
+      {/* Vùng nội dung chính */}
+      <main id="container" className="main-content">
+        <Outlet />
+      </main>
+
+      {/* THAY THẾ thẻ <footer> bằng component Footer */}
+      <Footer />
+    </div>
   );
 };
 
