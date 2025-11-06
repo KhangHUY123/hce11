@@ -24,49 +24,64 @@ const ListProducts_SP = () => {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Danh sách sản phẩm</h2>
-
+    <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
+      {" "}
+      {/* Thêm maxWidth và margin: auto để căn giữa */}
+      <h2
+        style={{
+          marginBottom: "25px",
+          fontSize: "1.8rem",
+          color: "#333",
+          textAlign: "center",
+        }}
+      >
+        Danh sách sản phẩm
+      </h2>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-          gap: "20px",
+          // ĐIỂM CẬP NHẬT: Tối ưu grid template columns
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "25px", // Tăng khoảng cách giữa các sản phẩm
+          justifyContent: "center", // Căn giữa các cột nếu số lượng không đầy đủ một hàng
         }}
       >
         {listProduct.map((p) => (
           <div
             key={p.id}
-            onClick={() => navigate(`/detail/${p.id}`)}
+            onClick={() => navigate(`/sanpham/${p.id}`)}
             style={{
-              border: "1px solid #ddd",
-              borderRadius: "10px",
-              padding: "12px",
+              border: "1px solid #e0e0e0", // Màu viền nhẹ nhàng hơn
+              borderRadius: "12px", // Bo tròn góc nhiều hơn
+              padding: "15px", // Tăng padding bên trong
               textAlign: "center",
               cursor: "pointer",
-              background: "#fff",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+              background: "#ffffff", // Nền trắng rõ ràng
+              boxShadow: "0 4px 12px rgba(0,0,0,0.08)", // Đổ bóng rõ hơn một chút
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
+              display: "flex", // Thêm flex để căn chỉnh nội dung bên trong
+              flexDirection: "column", // Sắp xếp nội dung theo chiều dọc
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-4px)";
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+              e.currentTarget.style.transform = "translateY(-6px)"; // Nhấc lên cao hơn khi hover
+              e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.15)"; // Đổ bóng mạnh hơn khi hover
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)";
             }}
           >
             <div
               style={{
                 width: "100%",
-                height: "200px",
+                height: "220px", // Tăng chiều cao vùng ảnh
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 overflow: "hidden",
                 borderRadius: "8px",
-                backgroundColor: "#f9f9f9",
+                backgroundColor: "#f5f5f5", // Màu nền cho vùng ảnh
+                marginBottom: "10px", // Khoảng cách dưới ảnh
               }}
             >
               <img
@@ -75,18 +90,35 @@ const ListProducts_SP = () => {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
+                  objectFit: "cover", // Đảm bảo ảnh bao phủ toàn bộ vùng
                 }}
               />
             </div>
 
-            <h4 style={{ margin: "10px 0 5px", fontSize: "1rem" }}>
+            <h4
+              style={{
+                margin: "10px 0 8px",
+                fontSize: "1.1rem",
+                color: "#333",
+                flexGrow: "1",
+              }}
+            >
+              {" "}
+              {/* flexGrow để tiêu đề chiếm không gian còn lại */}
               {p.title}
             </h4>
-            <p style={{ color: "#e63946", fontWeight: "bold", margin: "0" }}>
-              ${p.price}
+            <p
+              style={{
+                color: "#e63946",
+                fontWeight: "bold",
+                margin: "0 0 5px",
+                fontSize: "1.15rem",
+              }}
+            >
+              ${parseFloat(p.price).toFixed(2)}{" "}
+              {/* Định dạng giá 2 chữ số thập phân */}
             </p>
-            <small style={{ color: "#555" }}>
+            <small style={{ color: "#777", fontSize: "0.9rem" }}>
               ⭐ {p.rating_rate} | ({p.rating_count} đánh giá)
             </small>
           </div>
