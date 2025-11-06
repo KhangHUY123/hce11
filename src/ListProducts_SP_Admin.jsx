@@ -1,5 +1,5 @@
+// Sửa ngày 4/11/2025 vì thêm trang quản trị sản phẩm dành cho Admin (CRUD Supabase + UI Grid)
 import React, { useEffect, useState } from "react";
-//@ts-ignore // Bỏ qua lỗi import supabase trong Admin component
 import { supabase } from "./supabaseClient";
 
 const ListProducts_SP_Admin = () => {

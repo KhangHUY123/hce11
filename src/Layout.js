@@ -17,7 +17,7 @@ const Layout = () => {
       {/* Truyền props vào HeaderMinimal */}
       <HeaderMinimal cartItemCount={cartCount} />
 
-      {/* Hero Banner (Giữ nguyên) */}
+      {/* Hero Banner */}
       <div
         className="hero-banner"
         style={{ backgroundImage: `url(${heroImage})` }}
@@ -27,8 +27,11 @@ const Layout = () => {
           <p>
             Join our strength community and unlock your training potentikal.
           </p>
-          <button className="shop-btn">SHOP NOW</button>
-          {/* Phần "NHÀ BÁN LẺ QUẦN ÁO..." có thể đặt ở đây hoặc footer */}
+
+          {/* ĐÃ LOẠI BỎ: Nút "SHOP NOW" */}
+          {/* <button className="shop-btn">SHOP NOW</button> */}
+
+          {/* Phần "NHÀ BÁN LẺ QUẦN ÁO..." */}
           <div className="hero-footer-text">
             NHÀ BÁN LẺ QUẦN ÁO CỔ ĐIỂN - TỪ NĂM 1998
           </div>
@@ -40,7 +43,7 @@ const Layout = () => {
         <Outlet />
       </main>
 
-      {/* THAY THẾ thẻ <footer> bằng component Footer */}
+      {/* Component Footer */}
       <Footer />
     </div>
   );

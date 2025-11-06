@@ -7,18 +7,17 @@ import Layout from "./Layout";
 import Trang1 from "./Trang1";
 // @ts-ignore
 import Chitietsanpham from "./Chitietsanpham";
-
+// @ts-ignore
+import Trang2 from "./Trang2";
 // @ts-ignore
 import ListProducts from "./ListProducts";
 
 // @ts-ignore
 import ListProducts_SP from "./ListProducts_SP";
 
-// @ts-ignore
-import Trang2 from "./Trang2";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// @ts-ignore
+
+//@ts-ignore
 import LoginPage from "./LoginPage";
 //@ts-ignore
 import LogoutPage from "./LogoutPage";

@@ -3,7 +3,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// 1. IMPORT HÌNH ẢNH
 // Tùy thuộc vào cấu trúc dự án của bạn, hãy điều chỉnh đường dẫn này
 import logoImage from "./assets/images/logo.png";
 
@@ -17,15 +16,11 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
       {/* Phần Logo (Bên trái) */}
       <div className="logo-section">
         <Link to="/" className="logo-text">
-          {/* 2. THAY THẾ CHUỖI VĂN BẢN BẰNG THẺ <img> */}
           <img
             src={logoImage}
             alt="K.H Clothing Store Logo"
             className="header-logo-image"
           />
-
-          {/* Xóa dòng logo-subtext nếu nó không cần thiết khi dùng ảnh */}
-          {/* <span className="logo-subtext">clothing store</span> */}
         </Link>
       </div>
 
@@ -43,7 +38,9 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
         <Link to="/contact" className="nav-item">
           Contact Us
         </Link>
-        <Link to="/LoginPage" className="nav-item">
+
+        {/* ĐIỂM SỬA LỖI: Chuyển đường dẫn từ "/LoginPage" thành "/login" */}
+        <Link to="/login" className="nav-item">
           Login
         </Link>
       </nav>

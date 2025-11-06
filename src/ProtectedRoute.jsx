@@ -1,3 +1,5 @@
+// Sửa ngày 4/11/2025 vì fix lỗi không truy cập được trang quản trị Admin
+
 import React from "react";
 import { Navigate } from "react-router-dom";
 
@@ -7,10 +9,6 @@ const ProtectedRoute = ({ children, roleRequired }) => {
   const userData = localStorage.getItem("user");
   const user = userData ? JSON.parse(userData) : null;
 
-  // Mặc định quyền yêu cầu là 'user' nếu không được truyền vào
-  const required = roleRequired || "user";
-
-  // --- 1. KIỂM TRA ĐĂNG NHẬP ---
   // Nếu chưa đăng nhập → chuyển về trang đăng nhập
   if (!user) {
     return (
@@ -22,14 +20,13 @@ const ProtectedRoute = ({ children, roleRequired }) => {
     );
   }
 
-  // --- 2. KIỂM TRA QUYỀN TRUY CẬP (ROLE) ---
-  // Nếu quyền yêu cầu là 'admin' VÀ role của user không phải là 'admin'
-  if (required === "admin" && user.role !== "admin") {
+  // Nếu route yêu cầu quyền admin → kiểm tra username
+  if (roleRequired === "admin" && user.username !== "admin") {
     alert("❌ Bạn không có quyền truy cập trang quản trị!");
-    return <Navigate to="/" replace />; // Chuyển về trang chủ
+    return <Navigate to="/" replace />;
   }
 
-  // --- 3. TRUY CẬP HỢP LỆ ---
+  // Nếu hợp lệ → render nội dung bên trong
   return children;
 };
 
