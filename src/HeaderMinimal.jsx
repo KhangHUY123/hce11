@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// Tùy thuộc vào cấu trúc dự án của bạn, hãy điều chỉnh đường dẫn này
-// Ví dụ: import logoImage from "./assets/images/logo.png";
-const logoImage = "https://placehold.co/40x40/png"; // Thay bằng đường dẫn ảnh thật
+// ✅ ĐÃ CHỈNH SỬA ĐƯỜNG DẪN DỰA TRÊN THÔNG TIN BẠN CUNG CẤP
+import logoImage from "./assets/images/logo.png";
 
 const HeaderMinimal = ({ logoText, cartItemCount }) => {
   const navigate = useNavigate();
@@ -42,7 +41,7 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
       <div className="logo-section">
         <Link to="/" className="logo-text">
           <img
-            src={logoImage}
+            src={logoImage} // Sử dụng logo đã import
             alt="K.H Clothing Store Logo"
             className="header-logo-image"
           />
