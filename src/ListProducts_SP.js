@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// Đảm bảo file này tồn tại và được export (hoặc bạn đã tạo custom.d.ts)
 import { supabase } from "./supabaseClient";
 
 const ListProducts_SP = () => {

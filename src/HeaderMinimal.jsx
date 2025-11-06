@@ -1,12 +1,41 @@
-// src/HeaderMinimal.jsx (hoặc .tsx)
-
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // Tùy thuộc vào cấu trúc dự án của bạn, hãy điều chỉnh đường dẫn này
-import logoImage from "./assets/images/logo.png";
+// Ví dụ: import logoImage from "./assets/images/logo.png";
+const logoImage = "https://placehold.co/40x40/png"; // Thay bằng đường dẫn ảnh thật
 
 const HeaderMinimal = ({ logoText, cartItemCount }) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  // Đọc trạng thái người dùng từ localStorage
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+
+    // Listener để cập nhật trạng thái khi đăng nhập/đăng xuất xảy ra
+    const handleStorageChange = () => {
+      const newUserData = localStorage.getItem("user");
+      setUser(newUserData ? JSON.parse(newUserData) : null);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    // Chuyển hướng đến route "/logout" để xóa session
+    navigate("/logout");
+  };
+
+  const isAdmin = user && user.role === "admin";
+
   return (
     <header className="header-minimal">
       {/* Phần Logo (Bên trái) */}
@@ -35,11 +64,34 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
           Contact Us
         </Link>
 
-        {/* ĐIỂM SỬA LỖI CÚ PHÁP VÀ LIÊN KẾT */}
-        {/* Chuyển sang sử dụng <Link> và đường dẫn /login */}
-        <Link to="/login" className="nav-item">
-          Login
-        </Link>
+        {/* LOGIC ĐIỀU KIỆN */}
+        {isAdmin && (
+          // Nếu là Admin: Hiển thị Admin Dashboard
+          <Link to="/admin/products" className="nav-item nav-admin">
+            Admin Dashboard
+          </Link>
+        )}
+
+        {user ? (
+          // Nếu Đã đăng nhập: Hiển thị nút Đăng xuất
+          <button
+            onClick={handleLogout}
+            className="nav-item nav-logout"
+            style={{
+              background: "none",
+              border: "none",
+              color: "inherit",
+              cursor: "pointer",
+            }}
+          >
+            Logout ({user.username})
+          </button>
+        ) : (
+          // Nếu CHƯA đăng nhập: Hiển thị nút Login
+          <Link to="/login" className="nav-item">
+            Login
+          </Link>
+        )}
       </nav>
 
       {/* Phần Giỏ hàng (Bên phải) */}

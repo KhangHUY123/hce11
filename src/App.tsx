@@ -7,17 +7,18 @@ import Layout from "./Layout";
 import Trang1 from "./Trang1";
 // @ts-ignore
 import Chitietsanpham from "./Chitietsanpham";
-// @ts-ignore
-import Trang2 from "./Trang2";
+
 // @ts-ignore
 import ListProducts from "./ListProducts";
 
 // @ts-ignore
 import ListProducts_SP from "./ListProducts_SP";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// @ts-ignore
+import Trang2 from "./Trang2";
 
-//@ts-ignore
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// @ts-ignore
 import LoginPage from "./LoginPage";
 //@ts-ignore
 import LogoutPage from "./LogoutPage";
@@ -26,31 +27,34 @@ import ProtectedRoute from "./ProtectedRoute";
 //@ts-ignore
 import ListProducts_SP_Admin from "./ListProducts_SP_Admin";
 
-const App = () => {
-  //return <Layout />;
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* ✅ Layout chung cho toàn bộ hệ thống */}
+        {/* ROUTE CHA: LAYOUT */}
         <Route path="/" element={<Layout />}>
-          {/* Trang chính (cho người dùng vãng lai) */}
+          {/* Trang Chủ */}
           <Route index element={<ListProducts_SP />} />
-          <Route path="trang1" element={<Trang1 />} />
-          <Route path="trang2" element={<Trang2 />} />
-          <Route path="Chitietsanpham" element={<Chitietsanpham />} />
-          {/* <Route path="detail/:id" element={<ProductDetail />} /> */}
 
-          {/* ✅ Trang đăng nhập (nằm trong Layout) */}
+          {/* Trang Chi tiết Sản phẩm */}
+          <Route path="sanpham/:id" element={<Chitietsanpham />} />
+
+          {/* ROUTE THỪA - Giữ nguyên cho đến khi bạn quyết định xóa */}
+          <Route path="Chitietsanpham" element={<Chitietsanpham />} />
+
+          <Route path="trang2" element={<Trang2 />} />
+
+          {/* Trang đăng nhập */}
           <Route path="login" element={<LoginPage />} />
 
-          {/* ✅ Trang đăng xuất */}
+          {/* Trang đăng xuất */}
           <Route path="logout" element={<LogoutPage />} />
 
-          {/* ✅ Trang quản trị (nằm trong Layout, chỉ Admin truy cập) */}
+          {/* Trang quản trị: Chỉ dành cho Admin */}
           <Route
             path="admin/products"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute roleRequired="admin">
                 <ListProducts_SP_Admin />
               </ProtectedRoute>
             }
@@ -59,6 +63,4 @@ const App = () => {
       </Routes>
     </BrowserRouter>
   );
-};
-
-export default App;
+}

@@ -9,18 +9,29 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    // Thêm kiểu cho TS
     e.preventDefault();
     setLoading(true);
 
     setTimeout(() => {
-      if (username.trim() && password.trim()) {
+      // 1. KIỂM TRA TÀI KHOẢN ADMIN ĐẶC BIỆT
+      if (username === "admin" && password === "123456") {
         localStorage.setItem(
           "user",
-          JSON.stringify({ username, role: "user" })
+          JSON.stringify({ username: "admin", role: "admin" }) // <--- LƯU ROLE LÀ ADMIN
+        );
+        alert("✅ Đăng nhập Admin thành công!");
+        navigate("/admin/products"); // Chuyển đến trang Admin
+
+        // 2. KIỂM TRA TÀI KHOẢN USER THÔNG THƯỜNG
+      } else if (username.trim() && password.trim()) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ username, role: "user" }) // <--- LƯU ROLE LÀ USER
         );
         alert("✅ Đăng nhập thành công!");
-        navigate("/admin/products");
+        navigate("/admin/products"); // Chuyển về trang chủ
       } else {
         alert("❌ Vui lòng nhập đầy đủ thông tin!");
       }
@@ -29,9 +40,10 @@ const LoginPage = () => {
   };
 
   return (
+    // ... (Phần giao diện giữ nguyên)
     <div className="login-wrapper">
       <div className="login-card">
-        <img src={anhlogo1} alt="Logo" className="login-logo" />
+        <img src={anhlogo1} alt="Logo.png" className="login-logo" />
 
         <h2 className="login-title">Đăng nhập vào tài khoản</h2>
         <p className="login-subtitle">Sử dụng tài khoản của bạn để tiếp tục</p>
