@@ -25,8 +25,6 @@ const ListProducts_SP = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-      {" "}
-      {/* Thêm maxWidth và margin: auto để căn giữa */}
       <h2
         style={{
           marginBottom: "25px",
@@ -37,13 +35,13 @@ const ListProducts_SP = () => {
       >
         Danh sách sản phẩm
       </h2>
+
       <div
         style={{
           display: "grid",
-          // ĐIỂM CẬP NHẬT: Tối ưu grid template columns
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "25px", // Tăng khoảng cách giữa các sản phẩm
-          justifyContent: "center", // Căn giữa các cột nếu số lượng không đầy đủ một hàng
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "25px",
+          justifyContent: "center",
         }}
       >
         {listProduct.map((p) => (
@@ -51,20 +49,20 @@ const ListProducts_SP = () => {
             key={p.id}
             onClick={() => navigate(`/sanpham/${p.id}`)}
             style={{
-              border: "1px solid #e0e0e0", // Màu viền nhẹ nhàng hơn
-              borderRadius: "12px", // Bo tròn góc nhiều hơn
-              padding: "15px", // Tăng padding bên trong
+              border: "1px solid #e0e0e0",
+              borderRadius: "12px",
+              padding: "15px",
               textAlign: "center",
               cursor: "pointer",
-              background: "#ffffff", // Nền trắng rõ ràng
-              boxShadow: "0 4px 12px rgba(0,0,0,0.08)", // Đổ bóng rõ hơn một chút
+              background: "#ffffff",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
-              display: "flex", // Thêm flex để căn chỉnh nội dung bên trong
-              flexDirection: "column", // Sắp xếp nội dung theo chiều dọc
+              display: "flex",
+              flexDirection: "column",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-6px)"; // Nhấc lên cao hơn khi hover
-              e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.15)"; // Đổ bóng mạnh hơn khi hover
+              e.currentTarget.style.transform = "translateY(-6px)";
+              e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.15)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
@@ -74,14 +72,14 @@ const ListProducts_SP = () => {
             <div
               style={{
                 width: "100%",
-                height: "220px", // Tăng chiều cao vùng ảnh
+                height: "220px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 overflow: "hidden",
                 borderRadius: "8px",
-                backgroundColor: "#f5f5f5", // Màu nền cho vùng ảnh
-                marginBottom: "10px", // Khoảng cách dưới ảnh
+                backgroundColor: "#f5f5f5",
+                marginBottom: "10px",
               }}
             >
               <img
@@ -90,7 +88,7 @@ const ListProducts_SP = () => {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover", // Đảm bảo ảnh bao phủ toàn bộ vùng
+                  objectFit: "cover",
                 }}
               />
             </div>
@@ -103,8 +101,6 @@ const ListProducts_SP = () => {
                 flexGrow: "1",
               }}
             >
-              {" "}
-              {/* flexGrow để tiêu đề chiếm không gian còn lại */}
               {p.title}
             </h4>
             <p
@@ -115,8 +111,7 @@ const ListProducts_SP = () => {
                 fontSize: "1.15rem",
               }}
             >
-              ${parseFloat(p.price).toFixed(2)}{" "}
-              {/* Định dạng giá 2 chữ số thập phân */}
+              ${typeof p.price === "number" ? p.price.toFixed(2) : p.price}
             </p>
             <small style={{ color: "#777", fontSize: "0.9rem" }}>
               ⭐ {p.rating_rate} | ({p.rating_count} đánh giá)

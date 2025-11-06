@@ -6,36 +6,61 @@ import Layout from "./Layout";
 // @ts-ignore
 import Trang1 from "./Trang1";
 // @ts-ignore
-import Chitietsanpham from "./Chitietsanpham"; // Component chi tiết của bạn
+import Chitietsanpham from "./Chitietsanpham";
 
 // @ts-ignore
 import ListProducts from "./ListProducts";
 
 // @ts-ignore
-import ListProducts_SP from "./ListProducts_SP"; // Component danh sách của bạn
+import ListProducts_SP from "./ListProducts_SP";
 
 // @ts-ignore
 import Trang2 from "./Trang2";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// @ts-ignore
+import LoginPage from "./LoginPage";
+//@ts-ignore
+import LogoutPage from "./LogoutPage";
+//@ts-ignore
+import ProtectedRoute from "./ProtectedRoute";
+//@ts-ignore
+import ListProducts_SP_Admin from "./ListProducts_SP_Admin";
 
 export default function App() {
   return (
     <BrowserRouter>
-           {" "}
       <Routes>
-               {" "}
+        {/* ROUTE CHA: LAYOUT */}
         <Route path="/" element={<Layout />}>
-                    <Route index element={<ListProducts_SP />} />
-          {/* Route này bị trùng, bạn nên xóa nếu luôn dùng ID */}
-                    <Route path="Chitietsanpham" element={<Chitietsanpham />} />
-          {/* Route Chi tiết sản phẩm đúng đang sử dụng :id */}
-                    <Route path="sanpham/:id" element={<Chitietsanpham />} />
-                    <Route path="trang2" element={<Trang2 />} />       {" "}
+          {/* Trang Chủ */}
+          <Route index element={<ListProducts_SP />} />
+
+          {/* Trang Chi tiết Sản phẩm */}
+          <Route path="sanpham/:id" element={<Chitietsanpham />} />
+
+          {/* ROUTE THỪA (có thể xóa) */}
+          <Route path="Chitietsanpham" element={<Chitietsanpham />} />
+
+          <Route path="trang2" element={<Trang2 />} />
+
+          {/* Trang đăng nhập */}
+          <Route path="Login" element={<LoginPage />} />
+
+          {/* Trang đăng xuất */}
+          <Route path="logout" element={<LogoutPage />} />
+
+          {/* Trang quản trị: Chỉ dành cho Admin */}
+          <Route
+            path="admin/products"
+            element={
+              <ProtectedRoute roleRequired="admin">
+                <ListProducts_SP_Admin />
+              </ProtectedRoute>
+            }
+          />
         </Route>
-             {" "}
       </Routes>
-         {" "}
     </BrowserRouter>
   );
 }

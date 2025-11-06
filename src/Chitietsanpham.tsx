@@ -1,151 +1,207 @@
-// src/Chitietsanpham.tsx
-
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+//@ts-ignore
+import { supabase } from "./supabaseClient";
 
-// @ts-ignore <--- SỬ DỤNG DÒNG NÀY ĐỂ BỎ QUA LỖI TS7016
-import { supabase } from "./supabaseClient"; // Import client JS
-
-// Khai báo kiểu dữ liệu cho sản phẩm
-interface ProductDetailType {
+// 1. ĐỊNH NGHĨA INTERFACE (KIỂU DỮ LIỆU) CHO SẢN PHẨM
+interface ProductData {
   id: number;
   title: string;
-  price: number;
+  price: number | string;
   image: string;
   description: string;
   rating_rate: number;
   rating_count: number;
 }
 
-const Chitietsanpham: React.FC = () => {
-  // Lấy 'id' từ URL
-  const { id } = useParams<{ id: string }>();
+type ProductState = ProductData | null;
 
-  // State lưu trữ dữ liệu sản phẩm hiện tại
-  const [product, setProduct] = useState<ProductDetailType | null>(null);
+const Chitietsanpham: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  const [product, setProduct] = useState<ProductState>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Hàm tải dữ liệu chi tiết sản phẩm từ Supabase
-  const fetchProductDetail = async (productId: number) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const { data, error } = await supabase
-        .from("product1") // Tên bảng sản phẩm của bạn
-        .select("*")
-        .eq("id", productId)
-        .single();
-
-      if (error && error.code !== "PGRST116") {
-        throw error;
-      }
-
-      if (!data) {
-        setError("Không tìm thấy sản phẩm này.");
-        setProduct(null);
-      } else {
-        // Ép kiểu dữ liệu để đảm bảo ProductType được áp dụng
-        setProduct(data as ProductDetailType);
-      }
-    } catch (err) {
-      const errorMessage =
-        (err as Error).message || "Lỗi khi tải chi tiết sản phẩm.";
-      console.error("Fetch Error:", errorMessage);
-      setError("Đã xảy ra lỗi khi tải dữ liệu.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (id) {
-      // Đảm bảo ID là số trước khi fetch
-      fetchProductDetail(parseInt(id));
+    if (!id) {
+      setError("Không tìm thấy ID sản phẩm.");
+      setLoading(false);
+      return;
     }
+
+    const fetchProductDetail = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const { data, error } = await supabase
+          .from("product1")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        if (error && error.code !== "PGRST116") {
+          throw error;
+        }
+
+        if (data) {
+          setProduct(data as ProductData);
+        } else {
+          setProduct(null);
+        }
+      } catch (err: unknown) {
+        const errorMessage =
+          (err as Error)?.message || "Đã xảy ra lỗi không xác định.";
+        console.error("Lỗi khi lấy chi tiết sản phẩm:", errorMessage);
+        setError("Lỗi khi tải dữ liệu chi tiết sản phẩm: " + errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductDetail();
   }, [id]);
 
-  // Hiển thị trạng thái Loading và Error
   if (loading) {
     return (
-      <div style={{ padding: "100px 20px", textAlign: "center" }}>
+      <div style={{ padding: "20px", textAlign: "center" }}>
         Đang tải chi tiết sản phẩm...
       </div>
     );
   }
 
-  if (error) {
+  if (error || !product) {
     return (
-      <div style={{ padding: "100px 20px", textAlign: "center", color: "red" }}>
-        {error}
+      <div
+        style={{
+          padding: "20px",
+          textAlign: "center",
+          color: error ? "red" : "inherit",
+        }}
+      >
+        <h3>{error || "Sản phẩm không tồn tại."}</h3>
+        <button
+          onClick={() => navigate(-1)}
+          style={{ padding: "10px 20px", cursor: "pointer" }}
+        >
+          Quay lại
+        </button>
       </div>
     );
   }
 
-  if (!product) {
-    return (
-      <div style={{ padding: "100px 20px", textAlign: "center" }}>
-        Sản phẩm không tồn tại.
-      </div>
-    );
-  }
-
-  // Logic tạo sao
-  const renderStars = (rating: number) => {
-    return Array(5)
-      .fill(0)
-      .map((_, i) => (
-        <span key={i} style={{ color: i < rating ? "#FFD700" : "#dcdcdc" }}>
-          ★
-        </span>
-      ));
-  };
-
-  // ---------------- GIAO DIỆN HIỂN THỊ CHI TIẾT SẢN PHẨM ----------------
   return (
-    <div className="product-detail-page">
-      <div className="detail-container">
-        {/* Cột 1: Hình ảnh */}
-        <div className="image-column">
+    <div
+      style={{
+        padding: "40px",
+        maxWidth: "900px",
+        margin: "0 auto",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <button
+        onClick={() => navigate(-1)}
+        style={{
+          marginBottom: "20px",
+          padding: "8px 15px",
+          cursor: "pointer",
+          backgroundColor: "#3498db",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+        }}
+      >
+        &larr; Quay lại danh sách
+      </button>
+
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "30px",
+          border: "1px solid #eee",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+        }}
+      >
+        <div style={{ flex: "1 1 300px" }}>
           <img
             src={product.image}
             alt={product.title}
-            className="product-main-image"
+            style={{
+              width: "100%",
+              height: "auto",
+              borderRadius: "8px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            }}
           />
-          <p style={{ marginTop: "15px" }}>
-            ⭐ {product.rating_rate} | ({product.rating_count} đánh giá)
-          </p>
         </div>
 
-        {/* Cột 2: Thông tin */}
-        <div className="info-column">
-          <h1 className="product-title">{product.title}</h1>
+        <div style={{ flex: "2 1 400px" }}>
+          <h1 style={{ fontSize: "2rem", margin: "0 0 10px" }}>
+            {product.title}
+          </h1>
 
-          <div className="product-rating">
-            {renderStars(Math.round(product.rating_rate))}
-          </div>
-
-          <p className="product-price">
-            Giá: <span>${product.price.toFixed(2)}</span>
+          <p
+            style={{
+              color: "#e74c3c",
+              fontWeight: "bold",
+              fontSize: "1.8rem",
+              margin: "5px 0 15px",
+            }}
+          >
+            $
+            {typeof product.price === "number"
+              ? product.price.toFixed(2)
+              : product.price}
           </p>
 
-          <div className="action-buttons">
-            <input
-              type="number"
-              defaultValue={1}
-              min={1}
-              className="quantity-input"
-            />
-            <button className="add-to-cart-btn">🛒 Thêm vào Giỏ hàng</button>
+          <div style={{ margin: "15px 0" }}>
+            <span
+              style={{
+                color: "#f39c12",
+                fontWeight: "bold",
+                marginRight: "10px",
+              }}
+            >
+              Đánh giá: ⭐ {product.rating_rate}
+            </span>
+            <small style={{ color: "#7f8c8d" }}>
+              ({product.rating_count} lượt đánh giá)
+            </small>
           </div>
 
-          <div className="description-section">
-            <h3>Mô tả sản phẩm</h3>
-            <p>
-              {product.description ||
-                "Chưa có mô tả chi tiết cho sản phẩm này."}
-            </p>
-          </div>
+          <h3
+            style={{
+              borderBottom: "2px solid #eee",
+              paddingBottom: "5px",
+              marginBottom: "10px",
+              fontSize: "1.2rem",
+              marginTop: "20px",
+            }}
+          >
+            Mô tả
+          </h3>
+          <p style={{ lineHeight: "1.6", color: "#333" }}>
+            {product.description || "Không có mô tả chi tiết."}
+          </p>
+
+          <button
+            style={{
+              padding: "12px 25px",
+              backgroundColor: "#2ecc71",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              fontSize: "1rem",
+              cursor: "pointer",
+              marginTop: "20px",
+            }}
+          >
+            Thêm vào Giỏ hàng
+          </button>
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
         <Link to="/contact" className="nav-item">
           Contact Us
         </Link>
-        <Link to="/login" className="nav-item">
+        <Link to="/LoginPage" className="nav-item">
           Login
         </Link>
       </nav>
