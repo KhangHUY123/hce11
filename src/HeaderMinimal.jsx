@@ -6,10 +6,6 @@ import { Link } from "react-router-dom";
 // Tùy thuộc vào cấu trúc dự án của bạn, hãy điều chỉnh đường dẫn này
 import logoImage from "./assets/images/logo.png";
 
-// Định kiểu cơ bản cho props nếu bạn đang dùng TypeScript
-// interface HeaderProps { logoText: string; cartItemCount: number; }
-// const HeaderMinimal: React.FC<HeaderProps> = ({ logoText, cartItemCount }) => {
-
 const HeaderMinimal = ({ logoText, cartItemCount }) => {
   return (
     <header className="header-minimal">
@@ -39,7 +35,8 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
           Contact Us
         </Link>
 
-        {/* ĐIỂM SỬA LỖI: Chuyển đường dẫn từ "/LoginPage" thành "/login" */}
+        {/* ĐIỂM SỬA LỖI CÚ PHÁP VÀ LIÊN KẾT */}
+        {/* Chuyển sang sử dụng <Link> và đường dẫn /login */}
         <Link to="/login" className="nav-item">
           Login
         </Link>

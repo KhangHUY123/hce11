@@ -20,7 +20,7 @@ const LoginPage = () => {
           JSON.stringify({ username, role: "user" })
         );
         alert("✅ Đăng nhập thành công!");
-        navigate("/");
+        navigate("/admin/products");
       } else {
         alert("❌ Vui lòng nhập đầy đủ thông tin!");
       }

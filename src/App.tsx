@@ -26,34 +26,31 @@ import ProtectedRoute from "./ProtectedRoute";
 //@ts-ignore
 import ListProducts_SP_Admin from "./ListProducts_SP_Admin";
 
-export default function App() {
+const App = () => {
+  //return <Layout />;
   return (
     <BrowserRouter>
       <Routes>
-        {/* ROUTE CHA: LAYOUT */}
+        {/* ✅ Layout chung cho toàn bộ hệ thống */}
         <Route path="/" element={<Layout />}>
-          {/* Trang Chủ */}
+          {/* Trang chính (cho người dùng vãng lai) */}
           <Route index element={<ListProducts_SP />} />
-
-          {/* Trang Chi tiết Sản phẩm */}
-          <Route path="sanpham/:id" element={<Chitietsanpham />} />
-
-          {/* ROUTE THỪA (có thể xóa) */}
-          <Route path="Chitietsanpham" element={<Chitietsanpham />} />
-
+          <Route path="trang1" element={<Trang1 />} />
           <Route path="trang2" element={<Trang2 />} />
+          <Route path="sanpham/:id" element={<Chitietsanpham />} />
+          {/* <Route path="detail/:id" element={<ProductDetail />} /> */}
 
-          {/* Trang đăng nhập */}
-          <Route path="Login" element={<LoginPage />} />
+          {/* ✅ Trang đăng nhập (nằm trong Layout) */}
+          <Route path="login" element={<LoginPage />} />
 
-          {/* Trang đăng xuất */}
+          {/* ✅ Trang đăng xuất */}
           <Route path="logout" element={<LogoutPage />} />
 
-          {/* Trang quản trị: Chỉ dành cho Admin */}
+          {/* ✅ Trang quản trị (nằm trong Layout, chỉ Admin truy cập) */}
           <Route
             path="admin/products"
             element={
-              <ProtectedRoute roleRequired="admin">
+              <ProtectedRoute>
                 <ListProducts_SP_Admin />
               </ProtectedRoute>
             }
@@ -62,4 +59,6 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
+
+export default App;
