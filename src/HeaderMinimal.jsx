@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 // ✅ ĐÃ CHỈNH SỬA ĐƯỜNG DẪN DỰA TRÊN THÔNG TIN BẠN CUNG CẤP
 import logoImage from "./assets/images/logo.png";
@@ -50,25 +50,41 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
 
       {/* Phần Menu Điều hướng (Giữa) */}
       <nav className="nav-menu">
-        <Link to="/Trang2" className="nav-item">
+        <NavLink
+          to="/Trang2"
+          className="nav-item"
+          activeClassName="active-nav-item"
+        >
           Home
-        </Link>
-        <Link to="/about" className="nav-item">
+        </NavLink>
+        <NavLink
+          to="/about"
+          className="nav-item"
+          activeClassName="active-nav-item"
+        >
           About Us
-        </Link>
-        <Link to="/" className="nav-item">
+        </NavLink>
+        <NavLink to="/" className="nav-item" activeClassName="active-nav-item">
           Shop
-        </Link>
-        <Link to="/Trang1" className="nav-item">
+        </NavLink>
+        <NavLink
+          to="/Trang1"
+          className="nav-item"
+          activeClassName="active-nav-item"
+        >
           Contact Us
-        </Link>
+        </NavLink>
 
         {/* LOGIC ĐIỀU KIỆN */}
         {isAdmin && (
           // Nếu là Admin: Hiển thị Admin Dashboard
-          <Link to="/admin/products" className="nav-item nav-admin">
+          <NavLink
+            to="/admin/products"
+            className="nav-item nav-admin"
+            activeClassName="active-nav-item"
+          >
             Admin Dashboard
-          </Link>
+          </NavLink>
         )}
 
         {user ? (
@@ -87,9 +103,13 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
           </button>
         ) : (
           // Nếu CHƯA đăng nhập: Hiển thị nút Login
-          <Link to="/login" className="nav-item">
+          <NavLink
+            to="/login"
+            className="nav-item"
+            activeClassName="active-nav-item"
+          >
             Login
-          </Link>
+          </NavLink>
         )}
       </nav>
 
