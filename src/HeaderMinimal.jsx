@@ -50,16 +50,16 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
 
       {/* Phần Menu Điều hướng (Giữa) */}
       <nav className="nav-menu">
-        <Link to="/" className="nav-item">
+        <Link to="/Trang2" className="nav-item">
           Home
         </Link>
         <Link to="/about" className="nav-item">
           About Us
         </Link>
-        <Link to="/Chitietsanpham" className="nav-item">
+        <Link to="/" className="nav-item">
           Shop
         </Link>
-        <Link to="/contact" className="nav-item">
+        <Link to="/Trang1" className="nav-item">
           Contact Us
         </Link>
 
