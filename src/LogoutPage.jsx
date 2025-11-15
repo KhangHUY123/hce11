@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
+  // aaa
 
   useEffect(() => {
     // Xóa thông tin user trong localStorage

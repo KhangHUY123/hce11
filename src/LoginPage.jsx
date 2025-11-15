@@ -16,7 +16,7 @@ const LoginPage = () => {
 
     setTimeout(() => {
       // 1. KIỂM TRA TÀI KHOẢN ADMIN ĐẶC BIỆT
-      if (username === "admin" && password === "123456") {
+      if (username === "admin" && password === "123") {
         localStorage.setItem(
           "user",
           JSON.stringify({ username: "admin", role: "admin" }) // <--- LƯU ROLE LÀ ADMIN
@@ -31,7 +31,7 @@ const LoginPage = () => {
           JSON.stringify({ username, role: "user" }) // <--- LƯU ROLE LÀ USER
         );
         alert("✅ Đăng nhập thành công!");
-        navigate("/admin/products"); // Chuyển về trang chủ
+        navigate("/"); // Chuyển về trang chủ
       } else {
         alert("❌ Vui lòng nhập đầy đủ thông tin!");
       }

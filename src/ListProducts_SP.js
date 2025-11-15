@@ -5,8 +5,13 @@ import { supabase } from "./supabaseClient";
 
 const ListProducts_SP = () => {
   const [listProduct, setListProduct] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [category, setCategory] = useState(""); // Bộ lọc theo loại
+  const [gender, setGender] = useState(""); // Bộ lọc theo giới tính (Nam, Nữ)
   const navigate = useNavigate();
 
+  // Hàm lấy sản phẩm từ Supabase
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -17,12 +22,41 @@ const ListProducts_SP = () => {
         if (error) throw error;
 
         setListProduct(data);
+        setFilteredProducts(data); // Cập nhật filtered products
       } catch (err) {
         console.error("Lỗi khi lấy dữ liệu:", err.message);
       }
     };
     fetchProducts();
   }, []);
+
+  // Hàm lọc sản phẩm theo tìm kiếm và bộ lọc
+  useEffect(() => {
+    const filterProducts = () => {
+      let filtered = listProduct;
+
+      // Lọc theo tên sản phẩm (tìm kiếm)
+      if (searchQuery) {
+        filtered = filtered.filter((product) =>
+          product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+
+      // Lọc theo danh mục (Áo vest, Áo khoác, ...)
+      if (category) {
+        filtered = filtered.filter((product) => product.category === category);
+      }
+
+      // Lọc theo giới tính (Nam, Nữ)
+      if (gender) {
+        filtered = filtered.filter((product) => product.gender === gender);
+      }
+
+      setFilteredProducts(filtered);
+    };
+
+    filterProducts();
+  }, [searchQuery, category, gender, listProduct]);
 
   return (
     <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
@@ -37,6 +71,60 @@ const ListProducts_SP = () => {
         Danh sách sản phẩm
       </h2>
 
+      {/* Tìm kiếm */}
+      <div style={{ marginBottom: "20px", textAlign: "left" }}>
+        <input
+          type="text"
+          placeholder="Tìm kiếm sản phẩm..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{
+            padding: "10px",
+            width: "300px",
+            fontSize: "1rem",
+            marginRight: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
+        />
+      </div>
+
+      {/* Bộ lọc sản phẩm */}
+      <div style={{ marginBottom: "20px", textAlign: "center" }}>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          style={{
+            padding: "10px",
+            marginRight: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
+        >
+          <option value="">Chọn danh mục</option>
+          <option value="Áo vest">Áo vest</option>
+          <option value="Áo khoác">Áo khoác</option>
+          <option value="Quần">Quần</option>
+          <option value="Giày">Giày</option>
+        </select>
+
+        <select
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          style={{
+            padding: "10px",
+            marginRight: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+          }}
+        >
+          <option value="">Chọn giới tính</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
+      </div>
+
+      {/* Danh sách sản phẩm */}
       <div
         style={{
           display: "grid",
@@ -45,7 +133,7 @@ const ListProducts_SP = () => {
           justifyContent: "center",
         }}
       >
-        {listProduct.map((p) => (
+        {filteredProducts.map((p) => (
           <div
             key={p.id}
             onClick={() => navigate(`/sanpham/${p.id}`)}

@@ -1,6 +1,6 @@
-// Sửa ngày 4/11/2025 vì thêm trang quản trị sản phẩm dành cho Admin (CRUD Supabase + UI Grid)
 import React, { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
+import "./assets/css/quanlysp.css";
 
 const ListProducts_SP_Admin = () => {
   const [products, setProducts] = useState([]);
@@ -13,7 +13,6 @@ const ListProducts_SP_Admin = () => {
     rating_count: "",
   });
 
-  // 🔹 Lấy danh sách sản phẩm
   const fetchProducts = async () => {
     const { data, error } = await supabase
       .from("product1")
@@ -27,7 +26,6 @@ const ListProducts_SP_Admin = () => {
     fetchProducts();
   }, []);
 
-  // 🔹 Xử lý nhập liệu form
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (editingProduct) {
@@ -37,7 +35,6 @@ const ListProducts_SP_Admin = () => {
     }
   };
 
-  // 🔹 Thêm sản phẩm mới
   const handleAdd = async (e) => {
     e.preventDefault();
     const { error } = await supabase.from("product1").insert([newProduct]);
@@ -55,7 +52,6 @@ const ListProducts_SP_Admin = () => {
     }
   };
 
-  // 🔹 Cập nhật sản phẩm
   const handleEdit = async (e) => {
     e.preventDefault();
     const { id, ...updated } = editingProduct;
@@ -71,7 +67,6 @@ const ListProducts_SP_Admin = () => {
     }
   };
 
-  // 🔹 Xóa sản phẩm
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc muốn xóa sản phẩm này không?")) {
       const { error } = await supabase.from("product1").delete().eq("id", id);

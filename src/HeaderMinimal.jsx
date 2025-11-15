@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-// ✅ ĐÃ CHỈNH SỬA ĐƯỜNG DẪN DỰA TRÊN THÔNG TIN BẠN CUNG CẤP
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logoImage from "./assets/images/logo.png";
 
-const HeaderMinimal = ({ logoText, cartItemCount }) => {
+const HeaderMinimal = ({ cartItemCount }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
@@ -12,67 +10,71 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData) {
-      setUser(JSON.parse(userData));
+      setUser(JSON.parse(userData)); // Đồng bộ trạng thái user từ localStorage
     }
+  }, []); // Chỉ chạy một lần khi component mount
 
-    // Listener để cập nhật trạng thái khi đăng nhập/đăng xuất xảy ra
-    const handleStorageChange = () => {
-      const newUserData = localStorage.getItem("user");
-      setUser(newUserData ? JSON.parse(newUserData) : null);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
+  // Hàm xử lý đăng xuất
   const handleLogout = () => {
-    // Chuyển hướng đến route "/logout" để xóa session
-    navigate("/logout");
+    localStorage.removeItem("user"); // Xóa thông tin người dùng khỏi localStorage
+    setUser(null); // Cập nhật lại trạng thái người dùng trong ứng dụng
+    navigate("/"); // Điều hướng về trang chủ
   };
 
   const isAdmin = user && user.role === "admin";
 
   return (
     <header className="header-minimal">
-      {/* Phần Logo (Bên trái) */}
       <div className="logo-section">
         <Link to="/" className="logo-text">
           <img
-            src={logoImage} // Sử dụng logo đã import
+            src={logoImage}
             alt="K.H Clothing Store Logo"
             className="header-logo-image"
           />
         </Link>
       </div>
 
-      {/* Phần Menu Điều hướng (Giữa) */}
+      {/* Menu */}
       <nav className="nav-menu">
-        <Link to="/" className="nav-item">
+        <NavLink
+          to="/Trang2"
+          className="nav-item"
+          activeClassName="active-nav-item"
+        >
           Home
-        </Link>
-        <Link to="/about" className="nav-item">
+        </NavLink>
+        <NavLink
+          to="/about"
+          className="nav-item"
+          activeClassName="active-nav-item"
+        >
           About Us
-        </Link>
-        <Link to="/Chitietsanpham" className="nav-item">
+        </NavLink>
+        <NavLink to="/" className="nav-item" activeClassName="active-nav-item">
           Shop
-        </Link>
-        <Link to="/contact" className="nav-item">
+        </NavLink>
+        <NavLink
+          to="/Trang1"
+          className="nav-item"
+          activeClassName="active-nav-item"
+        >
           Contact Us
-        </Link>
+        </NavLink>
 
-        {/* LOGIC ĐIỀU KIỆN */}
+        {/* Hiển thị Admin Dashboard khi là Admin */}
         {isAdmin && (
-          // Nếu là Admin: Hiển thị Admin Dashboard
-          <Link to="/admin/products" className="nav-item nav-admin">
+          <NavLink
+            to="/admin/products"
+            className="nav-item nav-admin"
+            activeClassName="active-nav-item"
+          >
             Admin Dashboard
-          </Link>
+          </NavLink>
         )}
 
+        {/* Hiển thị Login/Logout */}
         {user ? (
-          // Nếu Đã đăng nhập: Hiển thị nút Đăng xuất
           <button
             onClick={handleLogout}
             className="nav-item nav-logout"
@@ -86,14 +88,17 @@ const HeaderMinimal = ({ logoText, cartItemCount }) => {
             Logout ({user.username})
           </button>
         ) : (
-          // Nếu CHƯA đăng nhập: Hiển thị nút Login
-          <Link to="/login" className="nav-item">
+          <NavLink
+            to="/login"
+            className="nav-item"
+            activeClassName="active-nav-item"
+          >
             Login
-          </Link>
+          </NavLink>
         )}
       </nav>
 
-      {/* Phần Giỏ hàng (Bên phải) */}
+      {/* Giỏ hàng */}
       <div className="cart-section">
         <Link to="/cart" className="cart-icon-link">
           🛒

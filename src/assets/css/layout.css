@@ -2,8 +2,8 @@ body {
   margin: 0;
 }
 
-.banner {
-  height: 126px;
+.banne {
+  height: 63px; /* Giảm chiều cao xuống một nửa */
   background-color: #fff;
   display: flex;
   flex-direction: row;
